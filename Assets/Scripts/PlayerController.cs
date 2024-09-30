@@ -1,19 +1,29 @@
-using System;
-using System.Collections;
+using System . Collections ;
 using System . Collections . Generic ;
 using UnityEngine ;
+using UnityEngine . UI ;
+using TMPro ;
+using static UnityEditor.Timeline.TimelinePlaybackControls;
 using UnityEngine . InputSystem ;
+
 
 public class PlayerController : MonoBehaviour{
 
+    public GameObject player;
+    private Vector3 offset;
     public Vector2 moveValue;
     public float speed;
     private int count;
+    private int numPickups = 6; 
+    public TextMeshProUGUI ScoreText;
+    public TextMeshProUGUI WinText;
 
 
     void Start()
     {
         count = 0;
+        WinText.text = "";
+        SetCountText();
     }
 
     void OnMove(InputValue value){
@@ -30,8 +40,18 @@ public class PlayerController : MonoBehaviour{
     {
         if (other.gameObject.tag == "PickUp")
         {
-            count += 1;
+            count ++;
             other.gameObject.SetActive(false);
+            SetCountText();
+        }
+    }
+
+    private void SetCountText()
+    {
+        ScoreText.text = " Score : " + count.ToString();
+        if (count >= numPickups)
+        {
+            WinText.text = " You win ! ";
         }
     }
 }
